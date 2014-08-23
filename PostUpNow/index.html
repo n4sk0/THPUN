@@ -3,11 +3,121 @@
 <html>
   <!-- [START head_html] -->
   <head>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+        <title>Post Up Now</title>
+    <link rel="icon" 
+          type="image/png" 
+          href="/static/miniLogo.png">
+        <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <link href = "/stylesheets/bootstrap.css" rel="stylesheet">
+        <script src = "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <style>
+              #map_wrapper {
+                  height: 400px;
+              }
+
+              #map_canvas {
+                  width: 50%;
+                  height: 100%;
+              }
+
+    input[type="radio"]{
+        vertical-align: baseline;
+    }
+
+            </style>
   </head>
   <!-- [END head_html] -->
   <body>
-    <a href="{{ url|safe }}">{{ url_linktext }}</a>
+    <!--<a href="{{ url|safe }}">{{ url_linktext }}</a>-->
+    <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
+      <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
+        <img src="/static/logo.png"; style="width:150px">
+        <div class="container">
+            <ul class="nav" style="clear:both">
+             <li><a href="index.html">Home</a></li>
+             <li><a href="about.html">About</a></li>
+             <li><a href="contact.html">Contact Us</a></li>
+             <li><a href="help.html">Help</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+        <div class="hero-unit" style="background-image:url('/static/homepage.jpg'); width:620px; height: 400px; padding-top:40px">
+            <h4 style="color:white"> Find stores nearby that sell what you want - close range, great prices. </h4>
+                <div>
+                  <form method="link" action = "other.html">
+                  <input id="good" type="text" name="search" placeholder="Enter the good you want ..."> </input> 
+                  <input id="place" type="text" name="place" placeholder="Enter your location..."> </input> 
+                  <label style="color:white"><input type="radio" name="parameter" value="price"> Sort by price</label>
+                  <label style="color:white"><input type="radio" name="parameter" value="distance"> Sort by distance </label>
+    <input type="submit" value="Get Results">
+    </form>
+                </div>
+                <div id="info" class=""> </div>
+        </div>
+        <div id="results" style="width:50%; float:left">  </div>
+        <br>
+    <div id="map_wrapper">
+        <div id="map_canvas" class="mapping"></div>
+    </div>
+    </div>
+    
   </body>
 </html>
 {% endautoescape %}
+
+<script>
+jQuery.ajaxSettings.traditional = true; 
+
+var latitude; //my current lat
+var longitude; //my current long
+
+function getLocation()
+{
+  if (navigator.geolocation)
+  {
+    navigator.geolocation.getCurrentPosition(setPosition);
+  }
+  else
+  {
+    x.innerHTML="Geolocation is not supported by this browser.";
+  }
+}
+
+function setPosition(position)
+{
+  latitude = position.coords.latitude;
+  longitude = position.coords.longitude;
+  var location = document.getElementById("place");
+  var url = "http://api.geonames.org/findNearbyPostalCodes?lat="+latitude+"&lng="+longitude+"&username=lucasholucasho";
+  $.ajax({
+      type: "GET",
+      url: url,
+      dataType: "xml",
+      success: function(data) {
+        var city;
+        var state;
+          $(data).find("code").find("name").each(function()
+          {
+            city = $(this).text();
+          });
+          
+          $(data).find("code").find("adminCode1").each(function()
+          {
+            state = $(this).text();
+          });
+
+         location.value = city+", "+state;
+      }
+    })
+}
+
+$(document).ready(function() {
+  $.ajaxSetup({ cache: false });
+  getLocation();
+});
+
+</script>

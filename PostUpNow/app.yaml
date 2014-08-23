@@ -7,9 +7,14 @@ threadsafe: true
 handlers:
 - url: /stylesheets
   static_dir: stylesheets
+  
+- url: /static
+  static_dir: static
 
 - url: /.*
   script: postupnow.application
+
+
 
 libraries:
 - name: webapp2
