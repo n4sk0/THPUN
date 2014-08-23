@@ -17,10 +17,8 @@
 // (0,32) to correspond to the base of the flagpole.
 
 function initialize() {
-  //var lat = 37.777994;
-  //var lng = -122.272465;
-  var lat = -33.9;
-  var lng = 151.2;
+  var lat = 37.777994;
+  var lng = -122.272465;
 
   var mapOptions = {
     center: new google.maps.LatLng(lat, lng),
@@ -36,15 +34,11 @@ function initialize() {
  * the order in which these markers should display on top of each
  * other.
  */
+
+ //fields: name, address, zip, 
 var businesses = [
-    ['christinas house', 'Bondi Beach NSW 2026, Australia', 1]
+    ['christinas house', '1975 Constitution Way', 1]
 
-
- /* ['Bondi Beach', -33.890542, 151.274856, 4],
-  ['Coogee Beach', -33.923036, 151.259052, 5],
-  ['Cronulla Beach', -34.028249, 151.157507, 3],
-  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-  ['Maroubra Beach', -33.950198, 151.259302, 1]*/
 ];
 
 function setMarkers(map, locations) {
@@ -89,7 +83,7 @@ function setMarkers(map, locations) {
           icon: image,
           shape: shape,
           title: beach[0],
-          zIndex: beach[3]
+          //zIndex: beach[3]
       });
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
