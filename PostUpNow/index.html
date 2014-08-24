@@ -27,13 +27,13 @@
 
             </style>
             <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIHMXMSGcPXudNOBZXra8qpA9xs38UKQQ">
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA6_p5WjjC-4I7xjNnbkJqrLn6TrUm1w7o">
     </script>
-
+  
   </head>
   <!-- [END head_html] -->
   <body>
-    <!--<a href="{{ url|safe }}">{{ url_linktext }}</a>-->
+    <a href="{{ url|safe }}">{{ url_linktext }}</a>
     <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
       <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
         <img src="/static/headerOld.png"; style="padding-top: 20px;">
@@ -100,7 +100,6 @@
     
   </body>
 </html>
-{% endautoescape %}
   
 
 <script>
@@ -174,15 +173,7 @@ function initialize() {
 }
 
  //fields: name, address, city, zip, status
-var businesses = [
-    ['Twillo', '645 Harrison Street', 'San Francisco', 94107, 'compliant'],
-    ['Subway', '600 Harrison Street', 'San Francisco', 94107, 'compliant'],
-    ['Da Club', '500 Harrison Street', 'San Francisco', 94107, 'pending further action'],
-    ['BART', '400 Harrison Street', 'San Francisco', 94107, 'new business'],
-    ['Dairy Queen', '15 Perego Terrace', 'San Francisco', 94107, 'not compliant'],
-    ['Da Otha Club', '10 Crestline Dr', 'San Francisco', 94107, 'not compliant'],
-    ['Yogurtland', '115 2nd St', 'San Francisco', 94107, 'pending further action']
-];
+var businesses = {{ markers|safe }};
 
 var markers = [];
 
@@ -203,27 +194,28 @@ function setMarkers(map, locations) {
   for (var i = 0; i < locations.length; i++) {
     var j = 0; 
     
-    var address = locations[i][1] + ", " + locations[i][2];
+    var address = locations[i]['address']; + " " + locations[i]['city'] + ' CA ' + locations[i]['zipCode'];
+    console.log(locations[i])
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       var business = locations[j];
-      var businessStatus = business[4];
+      var businessStatus = business['comment'];                     //*****CHANGE THIS, SHOULD BE IN STATUS
       var image = {
         size: new google.maps.Size(17, 26),     //pin is 17px wide, 26px tall
         origin: new google.maps.Point(0, 0),     //origin at 0,0
         anchor: new google.maps.Point(1, 26)    //anchor for the base of the pin is the lower left corner
       };
-      if(businessStatus == 'compliant'){
+      if(businessStatus == 1){
         image['url'] = 'static/green.png';
       }
-      else if(businessStatus == 'pending further action'){
+      else if(businessStatus == 2){
         image['url'] = 'static/yellow.png';
       }
-      else if(businessStatus == 'not compliant'){
+      else if(businessStatus = 3){
         image['url'] = 'static/red.png';
       }
-      else if(businessStatus == 'new business'){
+      else if(businessStatus = 0){
         image['url'] = 'static/gray.png';
       }
       var marker = new google.maps.Marker({
@@ -231,14 +223,14 @@ function setMarkers(map, locations) {
           position: results[0].geometry.location,
           icon: image,
           shape: shape,
-          title: business[0]
+          title: business['name']
       });
 //'<input type="text" id="newStatus" placeholder="new status"> </input>'+
       var contentString = $('<div class="marker-info-win">'+
       '<div class="marker-inner-win"><span class="info-content">'+
-      'Business Name: ' + business[0] + '<br />' +
-      'Address: ' + business[1] + '<br />' +
-      '<span class="status">Status: ' + business[4] + "</span>"+
+      'Business Name: ' + business['name'] + '<br />' +
+      'Address: ' + business['address'] + '<br />' +
+      '<span class="status">Status: ' + business['comment'] + "</span>"+
       '</span>'+
       '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
       var infowindow = new google.maps.InfoWindow();
@@ -279,6 +271,7 @@ function setMarkers(map, locations) {
     }(j));
       j++;
     } else {                                          //invalid address
+      console.log('error, status code: ' + status);
       console.log('Unable to find address ' + address);
       //alert('Unable to find address: ' + address);
     }
@@ -314,3 +307,5 @@ $('#place').keypress(function (e) {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
+
+{% endautoescape %}
