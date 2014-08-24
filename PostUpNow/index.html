@@ -210,17 +210,22 @@ function setMarkers(map, locations) {
         origin: new google.maps.Point(0, 0),     //origin at 0,0
         anchor: new google.maps.Point(1, 26)    //anchor for the base of the pin is the lower left corner
       };
+      var code;
       if(businessStatus == 1){
         image['url'] = 'static/green.png';
+        code = "compliant";
       }
       else if(businessStatus == 2){
         image['url'] = 'static/yellow.png';
+        code = "pending";
       }
       else if(businessStatus = 3){
         image['url'] = 'static/red.png';
+        code = "not compliant"
       }
       else if(businessStatus = 0){
         image['url'] = 'static/gray.png';
+        code = "no data"
       }
       var marker = new google.maps.Marker({
           map: map,
@@ -228,14 +233,15 @@ function setMarkers(map, locations) {
           //position: results[0].geometry.location,
           icon: image,
           shape: shape,
-          title: business['name']
+          title: business['name'],
+          statusCode: code
       });
 //'<input type="text" id="newStatus" placeholder="new status"> </input>'+
       var contentString = $('<div class="marker-info-win">'+
       '<div class="marker-inner-win"><span class="info-content">'+
       'Business Name: ' + business['name'] + '<br />' +
       'Address: ' + business['address'] + '<br />' +
-      '<span class="status">Status: ' + business['status'] + "</span>"+
+      '<span class="status">Status: ' + marker['statusCode'] + "</span>"+
       '</span>'+
       '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
       var infowindow = new google.maps.InfoWindow();
@@ -250,40 +256,43 @@ function setMarkers(map, locations) {
   		  var status = $("#newStatus").val();
   		  $("#newStatus").val(null);
         //update the pin color
-        if (status == "0")
-        {
-          image['url'] = 'static/gray.png';
-        }
-        if (status == "1")
-        {
-          image['url'] = 'static/green.png';
-        }
-        if (status == "2")
-        {
-          image['url'] = 'static/yellow.png';
-        }
-        if (status == "3")
-        {
-          image['url'] = 'static/red.png';
-        }
-        var marker = new google.maps.Marker({
+      var code;
+      if(status == 1 || status == "compliant"){
+        image['url'] = 'static/green.png';
+        code = "compliant";
+      }
+      else if(status == 2 || status == "pending"){
+        image['url'] = 'static/yellow.png';
+        code = "pending";
+      }
+      else if(status = 3 || status == "not compliant"){
+        image['url'] = 'static/red.png';
+        code = "not compliant"
+      }
+      else if(status = 0 || status == "no data"){
+        image['url'] = 'static/gray.png';
+        code = "no data"
+      }
+
+        var marker2 = new google.maps.Marker({
             map: map,
             position: new google.maps.LatLng(locations[currentClick]['latitude'], locations[currentClick]['longitude']),
             icon: image,
             shape: shape,
-            title: business['name']
+            title: business['name'],
+            statusCode: code
         });
         
          var contentString = $('<div class="marker-info-win">'+
           '<div class="marker-inner-win"><span class="info-content">'+
           'Business Name: ' + business['name'] + '<br />' +
           'Address: ' + business['address'] + '<br />' +
-          '<span class="status">Status: ' + status + "</span>"+
+          '<span class="status">Status: ' + code + "</span>"+
           '</span>'+
           '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
           var infowindow = new google.maps.InfoWindow();
           infowindow.setContent(contentString[0]);
-          markers[currentClick] = marker;
+          markers[currentClick] = marker2;
           markers[currentClick]['infowindow'] = infowindow;
           
           google.maps.event.addListener(markers[currentClick], 'click', function () {
