@@ -101,6 +101,10 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     blob_info = blobstore.BlobInfo.get(resource)
     self.send_blob(blob_info)
 
+class UpdateHandler(webapp2.RequestHandler):
+    def get(self):
+
+
 
 application = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -108,4 +112,5 @@ application = webapp2.WSGIApplication([
     ('/file_upload', FileUpload),
     ('/upload', UploadHandler),
     ('/serve/([^/]+)?', ServeHandler)
+    ('/update', UpdateHandler)
 ], debug=True)
