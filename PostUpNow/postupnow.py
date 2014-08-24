@@ -3,6 +3,9 @@ import urllib
 from model import Business
 from model import BusinessStatus
 import csv
+import update_schema
+
+from google.appengine.ext import deferred
 
 from google.appengine.api import users
 from google.appengine.ext import blobstore
@@ -37,11 +40,14 @@ class MainPage(webapp2.RequestHandler):
         markers = []
         for marker in dbmarkers:
             markers.append({'name':marker.name,
+                         'latitude':marker.latitude,
+                         'longitude':marker.longitude,
                          'address':marker.address,
                          'city':marker.city,
                          'zipCode':marker.zipCode,
                          'statuses':marker.statuses,
                          'comment':marker.comment,
+                         'status':marker.status
                 #         'key':marker.key
             })
 
@@ -131,7 +137,7 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
             result = zip((line.split('\t') for line in input))
             for line in result:
                 logging.info(len(line))
-                b = Business(name= line[0][0], address = line[0][1], city = line[0][2], zipCode = line[0][3], comment = line[0][4])
+                b = Business(name = line[0][0], latitude = line[0][1], longitude = line[0][2], address = line[0][3], city = line[0][4], zipCode = line[0][5], status = line[0][6], comment = line[0][7])
                 b.put()
         #blob_info.close()
 
@@ -146,6 +152,11 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     blob_info = blobstore.BlobInfo.get(resource)
     self.send_blob(blob_info)
 
+class UpdateSchemaHandler(webapp2.RequestHandler):
+    def get(self):
+        deferred.defer(update_schema.UpdateSchema())
+        self.response.out.write('Schema migration successfully initiated.')
+
 
 application = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -153,5 +164,6 @@ application = webapp2.WSGIApplication([
     ('/contact', Contact),
     ('/file_upload', FileUpload),
     ('/upload', UploadHandler),
-    ('/serve/([^/]+)?', ServeHandler)
+    ('/serve/([^/]+)?', ServeHandler),
+    ('/update_schema', UpdateSchemaHandler)
 ], debug=True)
