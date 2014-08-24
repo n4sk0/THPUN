@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ShopLocal</title>
+    <title>Post Up Now</title>
 <link rel="icon" 
       type="image/png" 
       href="/static/miniLogo.png">
     <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <link href = "/stylesheets/bootstrap.css" rel="stylesheet">
     <script src = "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+     <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <style>
           html, body, #map-canvas {
             height: 100%;
@@ -55,17 +55,22 @@
   <body>
     <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
       <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
-        <img src="/static/header.png"; style="padding-top: 20px;">
+        <img src="/static/headerOld.png"; style="padding-top: 20px;">
         <div class="container">
-            <ul class="nav" style="clear:both; float:right">
-             <li><a href="/"; style="color:black">map</a></li>
-             <li><a href="about"; style="color:black; border-bottom-width: 2px;  border-bottom-style: solid">about</a></li> 
-             <li><a href="contact"; style="color:black">contact</a></li>
+            <ul class="nav" style="clear:both; float:right; width:340px">
+             <li><a href="/"; style="color:black; font-size:200%">map</a></li>
+             <li><a href="about"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px; font-size:200%">about</a></li>
+             <li><a href="contact"; style="color:black; font-size:200%">contact</a></li>
+             {% if authenticated %}
+                <li><a href="file_upload"; style="color:black; font-size:200%">upload</a></li>
+             {% endif %}
             </ul>
         </div>
       </div>
     </div>
   <h4 style="color:black; margin-left: 10px; margin-right: 10px">About SB 1193</h4>
-  <p style="margin-left: 10px; margin-right: 10px"> California is one of the nation's top four states for trafficked persons, and the Bay Area is a particular national hot spot for human trafficking. Not only is human trafficking modern-day slavery, it is also a multi-billion dollar global epidemic. Victims come from all backgrounds and are trafficked in all industries. <br> <br> Though human trafficking is illegal under Federal and California law, trafficking survivors often do not know where to turn to for help and community members may not know where to report suspicious situations. This new law helps the community direct victims to essential services by requiring public and private entities to post anti-trafficking notices that include telephone hotlines to seek help or report unlawful activities. <br> <br> The SB 1193 poster was designed by the Alameda County DA Office, and meets all the requirements of the law. You can access more information about the law below, and download and print the poster for your respective county. <br> <br> Studies have shown that in other states where similar posting requirements have been enacted, there was an increase in the number of reported trafficking situations and rescues of victims. Businesses can help free victims of trafficking. By complying with SB 1193, they will join the Alameda County DA's Office and the community in the fight against the national criminal enterprise of human trafficking. <br> <br> <b> Learn More about SB 1193 <b> <ul> <li> <a href="http://www.heat-watch.org/files/AG_Haris_SB_1193_fact_sheet.pdf"> California Department of Justice, Office of the Attorney General, Kamala D. Harris' SB 1193 Informational Document </a></li> <li> <a href="http://www.heat-watch.org/files/Identifying_Businesses_and_Establishments.pdf"> Section 52.6: A Roadmap for Identifying Businesses and Establishments </a> by Gibson Dunn - Presentation to help counties identify who is required to post SB 1193 notices on their storefronts </li></ul> <br> <br> <b> </p> <p style="margin-left: 10px; margin-right: 10px">Download the SB 1193 Human Trafficking Hotline Poster </b> (<a href="http://www.heat-watch.org/files/sb1193_alameda_county_FINAL11x17.pdf">http://www.heat-watch.org/files/sb1193_alameda_county_FINAL11x17.pdf</a>) <br> <br> <a href="http://vimeo.com/90202091"> Community Day of Action Training Video </a>- To participate and be notified of future Community Days of Action, <a href="http://www.eepurl.com/urwin">sign up on our email list. </a>  </p>
+  <div id="stuff" style="width:1200px">
+  <p style="margin-left: 10px; margin-right: 10px"> California is one of the nation's top four states for trafficked persons, and the Bay Area is a particular national hot spot for human trafficking. Not only is human trafficking modern-day slavery, it is also a multi-billion dollar global epidemic. Victims come from all backgrounds and are trafficked in all industries. <br> <br> Though human trafficking is illegal under Federal and California law, trafficking survivors often do not know where to turn to for help and community members may not know where to report suspicious situations. This new law helps the community direct victims to essential services by requiring public and private entities to post anti-trafficking notices that include telephone hotlines to seek help or report unlawful activities. <br> <br> The SB 1193 poster was designed by the Alameda County DA Office, and meets all the requirements of the law. You can access more information about the law below, and download and print the poster for your respective county. <br> <br> Studies have shown that in other states where similar posting requirements have been enacted, there was an increase in the number of reported trafficking situations and rescues of victims. Businesses can help free victims of trafficking. By complying with SB 1193, they will join the Alameda County DA's Office and the community in the fight against the national criminal enterprise of human trafficking. <br> <br> <b> Learn More about SB 1193 <b> <ul> <li> <a href="http://www.heat-watch.org/files/AG_Haris_SB_1193_fact_sheet.pdf"> California Department of Justice, Office of the Attorney General, Kamala D. Harris' SB 1193 Informational Document </a></li> <li> <a href="http://www.heat-watch.org/files/Identifying_Businesses_and_Establishments.pdf"> Section 52.6: A Roadmap for Identifying Businesses and Establishments </a> by Gibson Dunn - Presentation to help counties identify who is required to post SB 1193 notices on their storefronts </li></ul> <b> </p> <p style="margin-left: 10px; margin-right: 10px">Download the SB 1193 Human Trafficking Hotline Poster </b> (<a href="http://www.heat-watch.org/files/sb1193_alameda_county_FINAL11x17.pdf">http://www.heat-watch.org/files/sb1193_alameda_county_FINAL11x17.pdf</a>) <br> <br><img src="/static/poster.png"></img><br> <br> Community Day of Action Training Video - To participate and be notified of future Community Days of Action, <a href="http://www.eepurl.com/urwin">sign up on our email list. </a>  <a href="http://vimeo.com/90202091"><img src="/static/trainingVid.jpg"></img></a></p>
+  </div>
    </div> <br>
   </body>
