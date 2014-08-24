@@ -41,7 +41,10 @@
             <ul class="nav" style="clear:both; float:right">
              <li><a href="/"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px">map</a></li>
              <li><a href="about"; style="color:black">about</a></li>
-             <li><a href="contact.html"; style="color:black">contact</a></li>
+             <li><a href="contact"; style="color:black">contact</a></li>
+             {% if authenticated %}
+                <li><a href="file_upload"; style="color:black">upload</a></li>
+             {% endif %}
             </ul>
         </div>
       </div>
@@ -142,8 +145,6 @@ function setPosition(position)
          map.setCenter(new google.maps.LatLng(latitude, longitude));
       }
     })
-    
-    //google.maps.event.trigger(map, 'resize');
 }
 
 $(document).ready(function() {
@@ -284,6 +285,8 @@ function setMarkers(map, locations) {
   }
 }
 
+/******************** SEARCH BUTTON ********************/
+
 $( "#search" ).click(function() {
   var address = $("#place").val();
   geocoder = new google.maps.Geocoder();
@@ -306,14 +309,7 @@ $('#place').keypress(function (e) {
     $( "#search" ).trigger( "click" );
   }
 }); 
-/*
-$("#search").hover(function(){
-  var btn = document.getElementById('search');
-  btn.style.fontWeight = "bold";
-  //btn.innerHTML = 'Default Text';
-  btn.innerHTML.style.fontWeight = "bold";
-  alert( "Handler for .hover() called." );
-});*/
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
