@@ -64,10 +64,31 @@
         </div>
         <div id="results" style="width:50%; float:left">  </div>
         <br>-->
-    <div id="map_wrapper">
-          <div id="map_canvas" class="mapping" style="background-image:url('/static/filler.png')">
-          
+    <div id="map_wrapper" style="width:1000px">
+          <div id="map_canvas" class="mapping" style="background-image:url('/static/filler.png'); float:left"></div>
+                        
+          <div id="tableOfResults"; style="float:left">
+            <input type="text" id="place" placeholder="enter location"; style="margin-left:15px"> </input> <br> <br>
+            <div id="Statuses" style="margin-left:15px">Status</div> <br>
+            <div id="RecentSearch"; style="margin-left:15px">Oakland, CA > Not In Compliance <br></div> <br>
+            <table border="1"; style="border-collapse: separate; border: solid #D8D8D8  1px; border-radius:6px; -moz-border-radius:6px; width:250px; margin-left:15px">
+            <tr>
+              <td>George Kayes</td>
+            </tr>
+            <tr>
+              <td>APT C</td>
+            </tr>
+            <tr>
+              <td>The Layover</td>
+            </tr>
+            </table>
+            </div>
+            <div id="inputOutput"; style="float:right">
+              
+              
+            </div>
         </div>
+                
     </div>
     </div>
     
@@ -117,7 +138,7 @@ function setPosition(position)
             state = $(this).text();
           });
 
-         //location.value = city+", "+state;
+         location.value = city+", "+state;
          initialize();
          map.setCenter(new google.maps.LatLng(latitude, longitude));
       }
@@ -134,7 +155,7 @@ $(document).ready(function() {
 /************ MAP ****************/
 var map;
 function initialize() {
-
+  alert ("HEY");
   var lat = 37.8111401;
   var lng = -122.2663613;
 
