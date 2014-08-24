@@ -104,6 +104,7 @@ jQuery.ajaxSettings.traditional = true;
 var latitude; //my current lat
 var longitude; //my current long
 
+var currentClick = 0; //index of clicked venue
 function getLocation()
 {
   if (navigator.geolocation)
@@ -129,15 +130,11 @@ function setPosition(position)
       success: function(data) {
         var city;
         var state;
-          $(data).find("code").find("name").each(function()
-          {
-            city = $(this).text();
-          });
+        var cityNode = $(data).find("code").find("name")[0];
+            city = $(cityNode).text();
           
-          $(data).find("code").find("adminCode1").each(function()
-          {
-            state = $(this).text();
-          });
+        var stateNode = $(data).find("code").find("adminCode1")[0];
+        state = $(stateNode).text();
 
          location.value = city+", "+state;
          initialize();
@@ -239,24 +236,35 @@ function setMarkers(map, locations) {
           shape: shape,
           title: business[0]
       });
-
+//'<input type="text" id="newStatus" placeholder="new status"> </input>'+
       var contentString = $('<div class="marker-info-win">'+
       '<div class="marker-inner-win"><span class="info-content">'+
       'Business Name: ' + business[0] + '<br />' +
       'Address: ' + business[1] + '<br />' +
-      'Status: ' + business[4] +
+      '<span class="status">Status: ' + business[4] + "</span>"+
       '</span>'+
-      '</div></div>');
-            
+      '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
       var infowindow = new google.maps.InfoWindow();
       infowindow.setContent(contentString[0]);
 
       marker['infowindow'] = infowindow;
       markers[j] = marker;
+      
+      //###### update the status of an institution #########/
+  		var updateBtn 	= contentString.find('button.update-marker')[0];
+  		google.maps.event.addDomListener(updateBtn, "click", function(event) {
+  		  var status = $("#newStatus").val();
+  		  //TODO: MAKE AJAX CALL HERE
+  			alert(status); 
+  		});
 
       google.maps.event.addListener(markers[j], 'click', function(innerKey) {
       return function() {
+          markers[currentClick]['infowindow'].close(map, markers[currentClick]);
+          //alert("YO YOU CLICK");
+          //alert(innerKey);
           markers[innerKey]['infowindow'].open(map, markers[innerKey]);
+          currentClick = innerKey;
       }
     }(j));
       console.log("j is " + j);
@@ -267,7 +275,7 @@ function setMarkers(map, locations) {
   });
   }
 }
-
+      //$('span').on('click', alert("HEY"));   
 //google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
