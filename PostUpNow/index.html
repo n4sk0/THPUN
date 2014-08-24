@@ -68,6 +68,8 @@
           <div id="map_canvas" class="mapping" style="background-image:url('/static/filler.png'); float:left"></div>
                         
           <div id="tableOfResults"; style="float:left">
+            <button type="button" class="btn btn-default" style="float:right" id="search">Search</button>
+       <!--     <div id="search"; style="float:right"; font-size: large;> "Click here" </div>   -->
             <input type="text" id="place" placeholder="enter location"; style="margin-left:15px"> </input> <br> <br>
             <div id="Statuses" style="margin-left:15px">Status<img src="/static/gray.png" style="margin-left:5px"></img><img src="/static/green.png" style="margin-left:5px"></img><img src="/static/yellow.png" style="margin-left:5px"></img><img src="/static/red.png" style="margin-left:5px"></img></div> 
             <br>
@@ -198,12 +200,8 @@ function setMarkers(map, locations) {
       coords: [0, 0, 17, 26],
       type: 'rect'
   };
-  console.log(locations.length);
   for (var i = 0; i < locations.length; i++) {
-    var j = 0;
-    console.log('length' + locations.length);
-    console.log('a' + i);
-    
+    var j = 0; 
     
     var address = locations[i][1] + ", " + locations[i][2];
     geocoder = new google.maps.Geocoder();
@@ -267,15 +265,26 @@ function setMarkers(map, locations) {
           currentClick = innerKey;
       }
     }(j));
-      console.log("j is " + j);
       j++;
     } else {                                          //invalid address
-      alert('Unable to find address: ' + address);
+      console.log('Unable to find address ' + address);
+      //alert('Unable to find address: ' + address);
     }
   });
   }
 }
-      //$('span').on('click', alert("HEY"));   
-//google.maps.event.addDomListener(window, 'load', initialize);
+
+$( "#search" ).click(function() {
+  alert( "Handler for .click() called." );
+});
+/*
+$("#search").hover(function(){
+  var btn = document.getElementById('search');
+  btn.style.fontWeight = "bold";
+  //btn.innerHTML = 'Default Text';
+  btn.innerHTML.style.fontWeight = "bold";
+  alert( "Handler for .hover() called." );
+});*/
+google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
