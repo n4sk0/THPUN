@@ -191,10 +191,10 @@ function setMarkers(map, locations) {
       coords: [0, 0, 17, 26],
       type: 'rect'
   };
-  for (var i = 0; i < locations.length; i++) {
+  for (var i = 0; i < 6; i++) {
     var j = 0; 
     
-    var address = locations[i]['address']; + " " + locations[i]['city'] + ' CA ' + locations[i]['zipCode'];
+    var address = locations[i]['address'] + " " + locations[i]['city'] + ' CA ' + locations[i]['zipCode'];
     console.log(locations[i])
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
