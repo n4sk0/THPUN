@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ShopLocal</title>
+<link rel="icon" 
+      type="image/png" 
+      href="/static/miniLogo.png">
+    <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href = "/stylesheets/bootstrap.css" rel="stylesheet">
+    <script src = "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <style>
+          html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+          }
+          #panel {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            margin-left: -180px;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+          }
+        </style>
+        <style>
+          #directions-panel {
+            height: 100%;
+            float: right;
+            width: 490px;
+            overflow: auto;
+          }
+
+          #map-canvas {
+            margin-right: 400px;
+          }
+
+          @media print {
+            #map-canvas {
+              height: 500px;
+              margin: 0;
+            }
+
+            #directions-panel {
+              float: none;
+              width: auto;
+            }
+          }
+          
+        </style>
+  </head>
+  <body>
+    <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
+      <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
+        <img src="/static/header.png"; style="padding-top: 20px;">
+        <div class="container">
+            <ul class="nav" style="clear:both; float:right">
+             <li><a href="/"; style="color:black">map</a></li>
+             <li><a href="about"; style="color:black; border-bottom-width: 2px;  border-bottom-style: solid">about</a></li> 
+             <li><a href="contact.html"; style="color:black">contact</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  <h4 style="color:black; margin-left: 10px; margin-right: 10px">About ShopLocal</h4>
+  <p style="margin-left: 10px; margin-right: 10px">ShopLocal was created for the customer in mind. We want to make it convenient and easy for you to find the item 
+  that you are looking for, and at the lowest cost. We've provided all the tools that you need for this to happen, including an easy search bar that allows you to find items based on smallest price or distance, and we have also compiled a list of gas stations with gas prices near your area, so you can choose the best route that suits you and your needs. We have also made your experience a bit smoother by providing maps showcasing your current location as well as your destination store.
+
+<br> <br> ShopLocal was founded in 2014 by Princeton University undergraduates Lucas Ho and Gisela Murroni. Lucas is currently a senior in the Computer Science department, and Gisela is a junior in the Electrical Engineering department. The students were inspired to create ShopLocal while taking a course called Electronic Commerce taught by the illustrious Professor Kornhauser. 
+  </p>
+  </body>
