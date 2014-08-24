@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ShopLocal</title>
+<link rel="icon" 
+      type="image/png" 
+      href="/static/miniLogo.png">
+    <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href = "/stylesheets/bootstrap.css" rel="stylesheet">
+    <script src = "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <style>
+          html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+          }
+          #panel {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            margin-left: -180px;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+          }
+        </style>
+        <style>
+          #directions-panel {
+            height: 100%;
+            float: right;
+            width: 490px;
+            overflow: auto;
+          }
+
+          #map-canvas {
+            margin-right: 400px;
+          }
+
+          @media print {
+            #map-canvas {
+              height: 500px;
+              margin: 0;
+            }
+
+            #directions-panel {
+              float: none;
+              width: auto;
+            }
+          }
+          
+        </style>
+  </head>
+  <body>
+    <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
+      <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
+        <img src="/static/header.png"; style="padding-top: 20px;">
+        <div class="container">
+            <ul class="nav" style="clear:both; float:right">
+             <li><a href="/"; style="color:black">map</a></li>
+             <li><a href="about"; style="color:black">about</a></li> 
+             <li><a href="contact"; style="color:black; border-bottom-width: 2px;  border-bottom-style: solid">contact</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  <h4 style="color:black; margin-left: 10px; margin-right: 10px">Contact Us</h4>
+  <p style="margin-left: 10px; margin-right: 10px"> For questions, or guidance on complying with this new law, please contact the Alameda County District Attorney's Human Exploitation and Trafficking (H.E.A.T.) Watch Program at <a href="mailto:info@heat-watch.org">info@heat-watch.org.</a> <br> <br>To participate and be notified of future Community Days of Action, <a href="http://www.eepurl.com/urwin">sign up on our email list. </a> </p>
+  </body>
