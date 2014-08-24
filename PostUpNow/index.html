@@ -76,7 +76,7 @@
             <button type="button" class="btn btn-default" style="float:right" id="search">Search</button> <br> <br>
             <div id="Statuses" style="margin-left:15px">Status<img src="/static/gray.png" style="margin-left:5px"></img><img src="/static/green.png" style="margin-left:5px"></img><img src="/static/yellow.png" style="margin-left:5px"></img><img src="/static/red.png" style="margin-left:5px"></img></div> 
             <br>
-            <div id="RecentSearch"; style="margin-left:15px">Oakland, CA > Not In Compliance <br></div> <br>
+            <div id="RecentSearch"; style="margin-left:15px"> <br></div> <br>
             <table border="1"; style="border-collapse: separate; border: solid #D8D8D8  1px; border-radius:6px; -moz-border-radius:6px; width:250px; margin-left:15px">
             <tr>
               <td>George Kayes</td>
@@ -257,6 +257,15 @@ function setMarkers(map, locations) {
         infowindow.setContent(contentString[0]);
         markers[currentClick]['infowindow'] = infowindow;
         
+        //the ajax call is here
+        $.ajax({
+            type: "PUT",
+            url: "/update",
+            data: {"status": status}
+            success: function(data) {
+              alert ("update successful");
+            }
+          })
   			//alert(status); 
   		});
 
@@ -294,6 +303,7 @@ $( "#search" ).click(function() {
       console.log('Unable to find address ' + address);
     }
   });
+  $("#RecentSearch").text(address);
 });
 
 $('#place').keypress(function (e) {
