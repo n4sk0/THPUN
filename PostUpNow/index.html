@@ -252,6 +252,7 @@ function setMarkers(map, locations) {
   		var updateBtn 	= contentString.find('button.update-marker')[0];
   		google.maps.event.addDomListener(updateBtn, "click", function(event) {
   		  var status = $("#newStatus").val();
+  		  $("#newStatus").val(null);
   		  //TODO: MAKE AJAX CALL HERE
   			alert(status); 
   		});
