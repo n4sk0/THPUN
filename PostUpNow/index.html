@@ -27,23 +27,23 @@
 
             </style>
             <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIHMXMSGcPXudNOBZXra8qpA9xs38UKQQ">
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA6_p5WjjC-4I7xjNnbkJqrLn6TrUm1w7o">
     </script>
-
+  
   </head>
   <!-- [END head_html] -->
   <body>
-    <!--<a href="{{ url|safe }}">{{ url_linktext }}</a>-->
+    <a href="{{ url|safe }}">{{ url_linktext }}</a>
     <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
       <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
-        <img src="/static/header.png"; style="padding-top: 20px;">
+        <img src="/static/headerOld.png"; style="padding-top: 20px;">
         <div class="container">
-            <ul class="nav" style="clear:both; float:right">
-             <li><a href="/"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px">map</a></li>
-             <li><a href="about"; style="color:black">about</a></li>
-             <li><a href="contact.html"; style="color:black">contact</a></li>
+            <ul class="nav" style="clear:both; float:right; width:340px">
+             <li><a href="/"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px; font-size:200%">map</a></li>
+             <li><a href="about"; style="color:black; font-size:200%">about</a></li>
+             <li><a href="contact"; style="color:black; font-size:200%">contact</a></li>
              {% if authenticated %}
-                <li><a href="file_upload"; style="color:black">upload</a></li>
+                <li><a href="file_upload"; style="color:black; font-size:200%">upload</a></li>
              {% endif %}
             </ul>
         </div>
@@ -67,12 +67,13 @@
         </div>
         <div id="results" style="width:50%; float:left">  </div>
         <br>-->
-    <div id="map_wrapper" style="width:1000px">
-          <div id="map_canvas" class="mapping" style="background-image:url('/static/filler.png'); float:left"></div>
+    <div id="map_wrapper" style="width:1250px">
+          <div id="map_canvas" class="mapping" style="float:left; width:850px"></div>
                         
-          <div id="tableOfResults"; style="float:left">
-            <button type="button" class="btn btn-default" style="float:right" id="search">Search</button>
-            <input type="text" id="place" placeholder="enter location"; style="margin-left:15px"> </input> <br> <br>
+          <div id="tableOfResults"; style="float:left; width: 325px">
+            
+            <input type="text" id="place" placeholder="enter location"; style="margin-left:15px"> </input>
+            <button type="button" class="btn btn-default" style="float:right" id="search">Search</button> <br> <br>
             <div id="Statuses" style="margin-left:15px">Status<img src="/static/gray.png" style="margin-left:5px"></img><img src="/static/green.png" style="margin-left:5px"></img><img src="/static/yellow.png" style="margin-left:5px"></img><img src="/static/red.png" style="margin-left:5px"></img></div> 
             <br>
             <div id="RecentSearch"; style="margin-left:15px">Oakland, CA > Not In Compliance <br></div> <br>
@@ -99,7 +100,6 @@
     
   </body>
 </html>
-{% endautoescape %}
   
 
 <script>
@@ -145,8 +145,6 @@ function setPosition(position)
          map.setCenter(new google.maps.LatLng(latitude, longitude));
       }
     })
-    
-    //google.maps.event.trigger(map, 'resize');
 }
 
 $(document).ready(function() {
@@ -175,15 +173,7 @@ function initialize() {
 }
 
  //fields: name, address, city, zip, status
-var businesses = [
-    ['Twillo', '645 Harrison Street', 'San Francisco', 94107, 'compliant'],
-    ['Subway', '600 Harrison Street', 'San Francisco', 94107, 'compliant'],
-    ['Da Club', '500 Harrison Street', 'San Francisco', 94107, 'pending further action'],
-    ['BART', '400 Harrison Street', 'San Francisco', 94107, 'new business'],
-    ['Dairy Queen', '15 Perego Terrace', 'San Francisco', 94107, 'not compliant'],
-    ['Da Otha Club', '10 Crestline Dr', 'San Francisco', 94107, 'not compliant'],
-    ['Yogurtland', '115 2nd St', 'San Francisco', 94107, 'pending further action']
-];
+var businesses = {{ markers|safe }};
 
 var markers = [];
 
@@ -201,30 +191,31 @@ function setMarkers(map, locations) {
       coords: [0, 0, 17, 26],
       type: 'rect'
   };
-  for (var i = 0; i < locations.length; i++) {
+  for (var i = 0; i < 6; i++) {
     var j = 0; 
     
-    var address = locations[i][1] + ", " + locations[i][2];
+    var address = locations[i]['address'] + " " + locations[i]['city'] + ' CA ' + locations[i]['zipCode'];
+    console.log(locations[i])
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       var business = locations[j];
-      var businessStatus = business[4];
+      var businessStatus = business['comment'];                     //*****CHANGE THIS, SHOULD BE IN STATUS
       var image = {
         size: new google.maps.Size(17, 26),     //pin is 17px wide, 26px tall
         origin: new google.maps.Point(0, 0),     //origin at 0,0
         anchor: new google.maps.Point(1, 26)    //anchor for the base of the pin is the lower left corner
       };
-      if(businessStatus == 'compliant'){
+      if(businessStatus == 1){
         image['url'] = 'static/green.png';
       }
-      else if(businessStatus == 'pending further action'){
+      else if(businessStatus == 2){
         image['url'] = 'static/yellow.png';
       }
-      else if(businessStatus == 'not compliant'){
+      else if(businessStatus = 3){
         image['url'] = 'static/red.png';
       }
-      else if(businessStatus == 'new business'){
+      else if(businessStatus = 0){
         image['url'] = 'static/gray.png';
       }
       var marker = new google.maps.Marker({
@@ -232,14 +223,14 @@ function setMarkers(map, locations) {
           position: results[0].geometry.location,
           icon: image,
           shape: shape,
-          title: business[0]
+          title: business['name']
       });
 //'<input type="text" id="newStatus" placeholder="new status"> </input>'+
       var contentString = $('<div class="marker-info-win">'+
       '<div class="marker-inner-win"><span class="info-content">'+
-      'Business Name: ' + business[0] + '<br />' +
-      'Address: ' + business[1] + '<br />' +
-      '<span class="status">Status: ' + business[4] + "</span>"+
+      'Business Name: ' + business['name'] + '<br />' +
+      'Address: ' + business['address'] + '<br />' +
+      '<span class="status">Status: ' + business['comment'] + "</span>"+
       '</span>'+
       '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
       var infowindow = new google.maps.InfoWindow();
@@ -280,12 +271,15 @@ function setMarkers(map, locations) {
     }(j));
       j++;
     } else {                                          //invalid address
+      console.log('error, status code: ' + status);
       console.log('Unable to find address ' + address);
       //alert('Unable to find address: ' + address);
     }
   });
   }
 }
+
+/******************** SEARCH BUTTON ********************/
 
 $( "#search" ).click(function() {
   var address = $("#place").val();
@@ -309,14 +303,9 @@ $('#place').keypress(function (e) {
     $( "#search" ).trigger( "click" );
   }
 }); 
-/*
-$("#search").hover(function(){
-  var btn = document.getElementById('search');
-  btn.style.fontWeight = "bold";
-  //btn.innerHTML = 'Default Text';
-  btn.innerHTML.style.fontWeight = "bold";
-  alert( "Handler for .hover() called." );
-});*/
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
+
+{% endautoescape %}
