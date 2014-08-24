@@ -10,7 +10,7 @@
         <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <link href = "/stylesheets/bootstrap.css" rel="stylesheet">
         <script src = "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>-->
         <style>
               #map_wrapper {
                   height: 400px;
@@ -26,6 +26,10 @@
     }
 
             </style>
+            <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIHMXMSGcPXudNOBZXra8qpA9xs38UKQQ">
+    </script>
+
   </head>
   <!-- [END head_html] -->
   <body>
@@ -44,6 +48,7 @@
     </div>
 
     <div class="container">
+    <!--
         <div class="hero-unit" style="background-image:url('/static/homepage.jpg'); width:620px; height: 400px; padding-top:40px">
             <h5 style="color:white"> Mandated businesses and establishments under California's Human Trafficking Hotline Law, SB1193 </h5>
                 <div>
@@ -58,15 +63,18 @@
                 <div id="info" class=""> </div>
         </div>
         <div id="results" style="width:50%; float:left">  </div>
-        <br>
+        <br>-->
     <div id="map_wrapper">
-        <div id="map_canvas" class="mapping"></div>
+          <div id="map_canvas" class="mapping">
+          
+        </div>
     </div>
     </div>
     
   </body>
 </html>
 {% endautoescape %}
+  
 
 <script>
 jQuery.ajaxSettings.traditional = true; 
@@ -112,11 +120,88 @@ function setPosition(position)
          location.value = city+", "+state;
       }
     })
+    map.setCenter(new google.maps.LatLng(latitude, longitude));
+    //google.maps.event.trigger(map, 'resize');
 }
 
 $(document).ready(function() {
   $.ajaxSetup({ cache: false });
   getLocation();
 });
+
+/************ MAP ****************/
+var map;
+function initialize() {
+
+  var lat = 37.777994;
+  var lng = -122.272465;
+
+  if (!latitude || !longitude) {
+    latitude = lat;
+    longitude = lng;
+  }
+
+  var mapOptions = {
+    center: new google.maps.LatLng(latitude, longitude),
+    zoom: 12
+  };
+  map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+  setMarkers(map, businesses);
+}
+
+ //fields: name, address, city, zip, status
+var businesses = [
+    ['christinas house', '1975 Constitution Way', 1]
+
+];
+
+function setMarkers(map, locations) {
+  // Add markers to the map
+
+  // Marker sizes are expressed as a Size of X,Y
+  // where the origin of the image (0,0) is located
+  // in the top left of the image.
+
+  // Origins, anchor positions and coordinates of the marker
+  // increase in the X direction to the right and in
+  // the Y direction down.
+  var image = {
+    url: 'pin.png',
+    // This marker is 20 pixels wide by 32 pixels tall.
+    size: new google.maps.Size(50, 50),
+    // The origin for this image is 0,0.
+    origin: new google.maps.Point(0,0),
+    // The anchor for this image is the base of the flagpole at 0,32.
+    anchor: new google.maps.Point(25, 50)
+  };
+  var shape = {
+      coords: [0, 0, 20, 20],
+      type: 'rect'
+  };
+  for (var i = 0; i < locations.length; i++) {
+    var beach = locations[i];
+    
+    var address = beach[1];
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location,
+          icon: image,
+          shape: shape,
+          title: beach[0],
+          //zIndex: beach[3]
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+  }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
