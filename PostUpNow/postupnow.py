@@ -2,7 +2,6 @@ import os
 import urllib
 
 from google.appengine.api import users
-from google.appengine.ext import ndb
 
 import jinja2
 import webapp2
@@ -27,7 +26,6 @@ class MainPage(webapp2.RequestHandler):
             'url': url,
             'url_linktext': url_linktext,
         }
-
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render(template_values))
 
