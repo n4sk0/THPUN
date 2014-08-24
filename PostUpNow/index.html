@@ -175,12 +175,12 @@ function initialize() {
 
  //fields: name, address, city, zip, status
 var businesses = [
-    ['Twillo', '645 Harrison Street', 'San Francisco', 94107, 'not compliant'],
+    ['Twillo', '645 Harrison Street', 'San Francisco', 94107, 'compliant'],
     ['Subway', '600 Harrison Street', 'San Francisco', 94107, 'compliant'],
     ['Da Club', '500 Harrison Street', 'San Francisco', 94107, 'pending further action'],
     ['BART', '400 Harrison Street', 'San Francisco', 94107, 'new business'],
-    ['Dairy Queen', '215 2nd Street', 'San Francisco', 94107, 'not compliant'],
-    ['Da Otha Club', '225 2nd Street', 'San Francisco', 94107, 'compliant'],
+    ['Dairy Queen', '15 Perego Terrace', 'San Francisco', 94107, 'not compliant'],
+    ['Da Otha Club', '10 Crestline Dr', 'San Francisco', 94107, 'not compliant'],
     ['Yogurtland', '115 2nd St', 'San Francisco', 94107, 'pending further action'],
     ['The Cheesecake Factory', '103 Harrison Street', 'San Francisco', 94107, 'new business']
 ];
@@ -208,7 +208,7 @@ function setMarkers(map, locations) {
     console.log('a' + i);
     
     
-    var address = locations[i][1];
+    var address = locations[i][1] + ", " + locations[i][2];
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
