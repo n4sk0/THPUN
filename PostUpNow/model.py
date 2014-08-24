@@ -7,8 +7,8 @@ class BusinessStatus(ndb.Model):
 
 class Business(ndb.Model):
     """Models an individual Business entry"""
-    name = ndb.StringProperty(indexed=False)
-    address = ndb.StringProperty(indexed=False)
+    name = ndb.StringProperty(indexed=True)
+    address = ndb.StringProperty(indexed=True)
     city = ndb.StringProperty(indexed=False)
     zipCode = ndb.StringProperty(indexed=False)
     comment = ndb.StringProperty(indexed=False)

@@ -248,8 +248,8 @@ function setMarkers(map, locations) {
   		  
   		  var contentString = $('<div class="marker-info-win">'+
         '<div class="marker-inner-win"><span class="info-content">'+
-        'Business Name: ' + business[0] + '<br />' +
-        'Address: ' + business[1] + '<br />' +
+        'Business Name: ' + business['name'] + '<br />' +
+        'Address: ' + business['address'] + '<br />' +
         '<span class="status">Status: ' + status + "</span>"+
         '</span>'+
         '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
@@ -259,9 +259,11 @@ function setMarkers(map, locations) {
         
         //the ajax call is here
         $.ajax({
-            type: "PUT",
+            type: "GET",
             url: "/update",
-            data: {"status": status}
+            data: {"status": status,
+                   "name": business['name'],
+                   "address": business['address']},
             success: function(data) {
               alert ("update successful");
             }

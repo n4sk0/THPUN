@@ -41,8 +41,7 @@ class MainPage(webapp2.RequestHandler):
                          'city':marker.city,
                          'zipCode':marker.zipCode,
                          'statuses':marker.statuses,
-                         'comment':marker.comment,
-                         'key':marker.key(),
+                         'comment':marker.comment
             })
 
         template_values = {
@@ -152,8 +151,14 @@ class UpdateHandler(webapp2.RequestHandler):
     def get(self):
         name = self.request.get('name')
         address = self.request.get('address')
+
         status = self.request.get('status')
         dbmarkers = Business.query(Business.address == address, Business.name == name).fetch()
+        logging.getLogger().setLevel(logging.DEBUG)
+        logging.info(name)
+        logging.info(address)
+        logging.info(status)
+        logging.info(dbmarkers)
         for marker in dbmarkers:
             marker.status = status
             marker.put()
