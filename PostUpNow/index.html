@@ -36,13 +36,12 @@
     <!--<a href="{{ url|safe }}">{{ url_linktext }}</a>-->
     <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
       <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
-        <img src="/static/logo.png"; style="width:150px">
+        <img src="/static/header.png"; style="padding-top: 20px;">
         <div class="container">
-            <ul class="nav" style="clear:both">
-             <li><a href="index.html">Home</a></li>
-             <li><a href="about.html">About</a></li>
-             <li><a href="contact.html">Contact Us</a></li>
-             <li><a href="help.html">Help</a></li>
+            <ul class="nav" style="clear:both; float:right">
+             <li><a href="/"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px">map</a></li>
+             <li><a href="about"; style="color:black">about</a></li>
+             <li><a href="contact.html"; style="color:black">contact</a></li>
             </ul>
         </div>
       </div>
@@ -51,7 +50,7 @@
     <div class="container">
     <!--
         <div class="hero-unit" style="background-image:url('/static/homepage.jpg'); width:620px; height: 400px; padding-top:40px">
-            <h4 style="color:white"> Find stores nearby that sell what you want - close range, great prices. </h4>
+            <h5 style="color:white"> Mandated businesses and establishments under California's Human Trafficking Hotline Law, SB1193 </h5>
                 <div>
                   <form method="link" action = "other.html">
                   <input id="good" type="text" name="search" placeholder="Enter the good you want ..."> </input> 
@@ -153,13 +152,12 @@ function initialize() {
 
  //fields: name, address, city, zip, status
 var businesses = [
-    ['christinas house', '1975 Constitution Way', 1]
+    ['Twillo', ' 645 Harrison Street', 'San Francisco', 94107, 'newBusiness']
 
 ];
 
+//adds markers to the map for each business
 function setMarkers(map, locations) {
-  // Add markers to the map
-
   // Marker sizes are expressed as a Size of X,Y
   // where the origin of the image (0,0) is located
   // in the top left of the image.
@@ -168,36 +166,31 @@ function setMarkers(map, locations) {
   // increase in the X direction to the right and in
   // the Y direction down.
   var image = {
-    url: 'pin.png',
-    // This marker is 20 pixels wide by 32 pixels tall.
-    size: new google.maps.Size(50, 50),
-    // The origin for this image is 0,0.
-    origin: new google.maps.Point(0,0),
-    // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(25, 50)
+    url: 'static/green.png',
+    size: new google.maps.Size(35, 50),     //pin is 35px wide, 50px tall
+    origin: new google.maps.Point(0,0),     //origin at 0,0
+    anchor: new google.maps.Point(0, 50)    //anchor for the base of the pin is the lower left corner
   };
   var shape = {
-      coords: [0, 0, 20, 20],
+      coords: [0, 0, 35, 50],
       type: 'rect'
   };
   for (var i = 0; i < locations.length; i++) {
-    var beach = locations[i];
+    var business = locations[i];
     
-    var address = beach[1];
+    var address = business[1];
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      map.setCenter(results[0].geometry.location);
       var marker = new google.maps.Marker({
           map: map,
           position: results[0].geometry.location,
           icon: image,
           shape: shape,
-          title: beach[0],
-          //zIndex: beach[3]
+          title: business[0]
       });
     } else {
-      alert('Geocode was not successful for the following reason: ' + status);
+      alert('Unable to find address: ' + address);
     }
   });
   }

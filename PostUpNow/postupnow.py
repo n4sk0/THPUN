@@ -29,7 +29,28 @@ class MainPage(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render(template_values))
 
+class About(webapp2.RequestHandler):
+
+		    def get(self):
+		        if users.get_current_user():
+		            url = users.create_logout_url(self.request.uri)
+		            url_linktext = 'Logout'
+		        else:
+		            url = users.create_login_url(self.request.uri)
+		            url_linktext = 'Login'
+
+		        template_values = {
+		            'url': url,
+		            'url_linktext': url_linktext,
+		        }
+
+		        template = JINJA_ENVIRONMENT.get_template('about.html')
+		        self.response.write(template.render(template_values))
+
+
+
 
 application = webapp2.WSGIApplication([
     ('/', MainPage),
+	('/about', About)
 ], debug=True)
