@@ -69,7 +69,6 @@
                         
           <div id="tableOfResults"; style="float:left">
             <button type="button" class="btn btn-default" style="float:right" id="search">Search</button>
-       <!--     <div id="search"; style="float:right"; font-size: large;> "Click here" </div>   -->
             <input type="text" id="place" placeholder="enter location"; style="margin-left:15px"> </input> <br> <br>
             <div id="Statuses" style="margin-left:15px">Status<img src="/static/gray.png" style="margin-left:5px"></img><img src="/static/green.png" style="margin-left:5px"></img><img src="/static/yellow.png" style="margin-left:5px"></img><img src="/static/red.png" style="margin-left:5px"></img></div> 
             <br>
@@ -158,10 +157,10 @@ function initialize() {
   var lat = 37.8111401;
   var lng = -122.2663613;
 
-  if (!latitude || !longitude) {
+/*  if (!latitude || !longitude) {      //centers map on user's current location
     latitude = lat;
     longitude = lng;
-  }
+  }*/
 
   var mapOptions = {
     center: new google.maps.LatLng(latitude, longitude),
@@ -180,8 +179,7 @@ var businesses = [
     ['BART', '400 Harrison Street', 'San Francisco', 94107, 'new business'],
     ['Dairy Queen', '15 Perego Terrace', 'San Francisco', 94107, 'not compliant'],
     ['Da Otha Club', '10 Crestline Dr', 'San Francisco', 94107, 'not compliant'],
-    ['Yogurtland', '115 2nd St', 'San Francisco', 94107, 'pending further action'],
-    ['The Cheesecake Factory', '103 Harrison Street', 'San Francisco', 94107, 'new business']
+    ['Yogurtland', '115 2nd St', 'San Francisco', 94107, 'pending further action']
 ];
 
 var markers = [];
@@ -207,7 +205,6 @@ function setMarkers(map, locations) {
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      console.log('j is:' + j)
       var business = locations[j];
       var businessStatus = business[4];
       var image = {
@@ -288,8 +285,27 @@ function setMarkers(map, locations) {
 }
 
 $( "#search" ).click(function() {
-  alert( "Handler for .click() called." );
+  var address = $("#place").val();
+  geocoder = new google.maps.Geocoder();
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      console.log("Found address");
+      map.panTo(results[0].geometry.location);
+      map.fitBounds(results[0].geometry.viewport);
+    }
+    else{
+      console.log('Unable to find address ' + address);
+    }
+  });
 });
+
+$('#place').keypress(function (e) {
+ var key = e.which;
+ if(key == 13)  // the enter key code
+  {
+    $( "#search" ).trigger( "click" );
+  }
+}); 
 /*
 $("#search").hover(function(){
   var btn = document.getElementById('search');
