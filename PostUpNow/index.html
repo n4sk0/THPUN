@@ -153,13 +153,12 @@ function initialize() {
 
  //fields: name, address, city, zip, status
 var businesses = [
-    ['christinas house', '1975 Constitution Way', 1]
+    ['Twillo', ' 645 Harrison Street', 'San Francisco', 94107, 'newBusiness']
 
 ];
 
+//adds markers to the map for each business
 function setMarkers(map, locations) {
-  // Add markers to the map
-
   // Marker sizes are expressed as a Size of X,Y
   // where the origin of the image (0,0) is located
   // in the top left of the image.
@@ -168,36 +167,31 @@ function setMarkers(map, locations) {
   // increase in the X direction to the right and in
   // the Y direction down.
   var image = {
-    url: 'pin.png',
-    // This marker is 20 pixels wide by 32 pixels tall.
-    size: new google.maps.Size(50, 50),
-    // The origin for this image is 0,0.
-    origin: new google.maps.Point(0,0),
-    // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(25, 50)
+    url: 'static/green.png',
+    size: new google.maps.Size(35, 50),     //pin is 35px wide, 50px tall
+    origin: new google.maps.Point(0,0),     //origin at 0,0
+    anchor: new google.maps.Point(0, 50)    //anchor for the base of the pin is the lower left corner
   };
   var shape = {
-      coords: [0, 0, 20, 20],
+      coords: [0, 0, 35, 50],
       type: 'rect'
   };
   for (var i = 0; i < locations.length; i++) {
-    var beach = locations[i];
+    var business = locations[i];
     
-    var address = beach[1];
+    var address = business[1];
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      map.setCenter(results[0].geometry.location);
       var marker = new google.maps.Marker({
           map: map,
           position: results[0].geometry.location,
           icon: image,
           shape: shape,
-          title: beach[0],
-          //zIndex: beach[3]
+          title: business[0]
       });
     } else {
-      alert('Geocode was not successful for the following reason: ' + status);
+      alert('Unable to find address: ' + address);
     }
   });
   }
