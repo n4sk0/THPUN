@@ -191,16 +191,20 @@ function setMarkers(map, locations) {
       coords: [0, 0, 17, 26],
       type: 'rect'
   };
-  for (var i = 0; i < 6; i++) {
-    var j = 0; 
+  var j = 0;
+  for (var i = 0; i < locations.length; i++) {
+    //if (i == 5 || i == 6) continue;
+    console.log('i ' + i);
+    console.log('j' + j);
+  //  var j = 0; 
     
     var address = locations[i]['address'] + " " + locations[i]['city'] + ' CA ' + locations[i]['zipCode'];
     console.log(locations[i])
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode( { 'address': address}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      var business = locations[j];
-      var businessStatus = business['comment'];                     //*****CHANGE THIS, SHOULD BE IN STATUS
+    //geocoder = new google.maps.Geocoder();
+    //geocoder.geocode( { 'address': address}, function(results, status) {
+    //if (status == google.maps.GeocoderStatus.OK) {
+      var business = locations[i];
+      var businessStatus = business['status'];                     //*****CHANGE THIS, SHOULD BE IN STATUS
       var image = {
         size: new google.maps.Size(17, 26),     //pin is 17px wide, 26px tall
         origin: new google.maps.Point(0, 0),     //origin at 0,0
@@ -220,7 +224,8 @@ function setMarkers(map, locations) {
       }
       var marker = new google.maps.Marker({
           map: map,
-          position: results[0].geometry.location,
+          position: new google.maps.LatLng(business['latitude'], business['longitude']),
+          //position: results[0].geometry.location,
           icon: image,
           shape: shape,
           title: business['name']
@@ -230,7 +235,7 @@ function setMarkers(map, locations) {
       '<div class="marker-inner-win"><span class="info-content">'+
       'Business Name: ' + business['name'] + '<br />' +
       'Address: ' + business['address'] + '<br />' +
-      '<span class="status">Status: ' + business['comment'] + "</span>"+
+      '<span class="status">Status: ' + business['status'] + "</span>"+
       '</span>'+
       '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
       var infowindow = new google.maps.InfoWindow();
@@ -244,9 +249,7 @@ function setMarkers(map, locations) {
   		google.maps.event.addDomListener(updateBtn, "click", function(event) {
   		  var status = $("#newStatus").val();
   		  $("#newStatus").val(null);
-        
-        
-        
+
         //update the pin color
         if (status == "0")
         {
@@ -266,7 +269,7 @@ function setMarkers(map, locations) {
         }
         var marker = new google.maps.Marker({
             map: map,
-            position: results[0].geometry.location,
+            position: new google.maps.LatLng(locations[currentClick]['latitude'], locations[currentClick]['longitude']),
             icon: image,
             shape: shape,
             title: business['name']
@@ -292,7 +295,7 @@ function setMarkers(map, locations) {
               //currentClick = innerKey;});
         
         //the ajax call is here
-        $.ajax({
+        /*$.ajax({
             type: "GET",
             url: "/update",
             data: {"status": status,
@@ -301,7 +304,7 @@ function setMarkers(map, locations) {
             success: function(data) {
               alert ("update successful");
             }
-          })
+          })*/
           
           
   			//alert(status); 
@@ -317,12 +320,12 @@ function setMarkers(map, locations) {
       }
     }(j));
       j++;
-    } else {                                          //invalid address
-      console.log('error, status code: ' + status);
-      console.log('Unable to find address ' + address);
+    //} else {                                          //invalid address
+    //  console.log('error, status code: ' + status);
+    //  console.log('Unable to find address ' + address);
       //alert('Unable to find address: ' + address);
-    }
-  });
+    //}
+//  });
   }
 }
 
