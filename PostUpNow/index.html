@@ -36,14 +36,14 @@
     <!--<a href="{{ url|safe }}">{{ url_linktext }}</a>-->
     <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
       <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
-        <img src="/static/header.png"; style="padding-top: 20px;">
+        <img src="/static/headerOld.png"; style="padding-top: 20px;">
         <div class="container">
-            <ul class="nav" style="clear:both; float:right">
-             <li><a href="/"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px">map</a></li>
-             <li><a href="about"; style="color:black">about</a></li>
-             <li><a href="contact"; style="color:black">contact</a></li>
+            <ul class="nav" style="clear:both; float:right; width:340px">
+             <li><a href="/"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px; font-size:200%">map</a></li>
+             <li><a href="about"; style="color:black; font-size:200%">about</a></li>
+             <li><a href="contact"; style="color:black; font-size:200%">contact</a></li>
              {% if authenticated %}
-                <li><a href="file_upload"; style="color:black">upload</a></li>
+                <li><a href="file_upload"; style="color:black; font-size:200%">upload</a></li>
              {% endif %}
             </ul>
         </div>
@@ -67,12 +67,13 @@
         </div>
         <div id="results" style="width:50%; float:left">  </div>
         <br>-->
-    <div id="map_wrapper" style="width:1000px">
-          <div id="map_canvas" class="mapping" style="background-image:url('/static/filler.png'); float:left"></div>
+    <div id="map_wrapper" style="width:1250px">
+          <div id="map_canvas" class="mapping" style="float:left; width:850px"></div>
                         
-          <div id="tableOfResults"; style="float:left">
-            <button type="button" class="btn btn-default" style="float:right" id="search">Search</button>
-            <input type="text" id="place" placeholder="enter location"; style="margin-left:15px"> </input> <br> <br>
+          <div id="tableOfResults"; style="float:left; width: 325px">
+            
+            <input type="text" id="place" placeholder="enter location"; style="margin-left:15px"> </input>
+            <button type="button" class="btn btn-default" style="float:right" id="search">Search</button> <br> <br>
             <div id="Statuses" style="margin-left:15px">Status<img src="/static/gray.png" style="margin-left:5px"></img><img src="/static/green.png" style="margin-left:5px"></img><img src="/static/yellow.png" style="margin-left:5px"></img><img src="/static/red.png" style="margin-left:5px"></img></div> 
             <br>
             <div id="RecentSearch"; style="margin-left:15px">Oakland, CA > Not In Compliance <br></div> <br>
