@@ -65,7 +65,7 @@
         <div id="results" style="width:50%; float:left">  </div>
         <br>-->
     <div id="map_wrapper">
-          <div id="map_canvas" class="mapping">
+          <div id="map_canvas" class="mapping" style="background-image:url('/static/filler.png')">
           
         </div>
     </div>
@@ -135,8 +135,8 @@ $(document).ready(function() {
 var map;
 function initialize() {
 
-  var lat = 99;
-  var lng = 99;
+  var lat = 37.8111401;
+  var lng = -122.2663613;
 
   if (!latitude || !longitude) {
     latitude = lat;
@@ -155,6 +155,7 @@ function initialize() {
  //fields: name, address, city, zip, status
 var businesses = [
     ['Twillo', ' 645 Harrison Street', 'San Francisco', 94107, 'newBusiness']
+    //['Era Art Bar and Lounge', ' 19 Grand Ave', 'Oakland', 94612, 'newBusiness']
 
 ];
 
