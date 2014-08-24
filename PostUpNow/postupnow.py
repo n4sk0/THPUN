@@ -126,7 +126,7 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
 application = webapp2.WSGIApplication([
     ('/', MainPage),
 	('/about', About),
-    ('/contact', Contact)
+    ('/contact', Contact),
     ('/file_upload', FileUpload),
     ('/upload', UploadHandler),
     ('/serve/([^/]+)?', ServeHandler)

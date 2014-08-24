@@ -55,14 +55,14 @@
   <body>
     <div id="wrap" class="navbar navbar-inverse"; style="background-color:white">
       <div class="navbar-inner"; style="background-color:white; border-top-width: 10px">
-        <img src="/static/header.png"; style="padding-top: 20px;">
+        <img src="/static/headerOld.png"; style="padding-top: 20px;">
         <div class="container">
-            <ul class="nav" style="clear:both; float:right">
-             <li><a href="/"; style="color:black">map</a></li>
-             <li><a href="about"; style="color:black; border-bottom-width: 2px;  border-bottom-style: solid">about</a></li>
-             <li><a href="contact"; style="color:black">contact</a></li>
+            <ul class="nav" style="clear:both; float:right; width:340px">
+             <li><a href="/"; style="color:black; font-size:200%">map</a></li>
+             <li><a href="about"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px; font-size:200%">about</a></li>
+             <li><a href="contact"; style="color:black; font-size:200%">contact</a></li>
              {% if authenticated %}
-                <li><a href="file_upload"; style="color:black">upload</a></li>
+                <li><a href="file_upload"; style="color:black; font-size:200%">upload</a></li>
              {% endif %}
             </ul>
         </div>
