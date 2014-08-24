@@ -183,6 +183,6 @@ application = webapp2.WSGIApplication([
     ('/file_upload', FileUpload),
     ('/upload', UploadHandler),
     ('/serve/([^/]+)?', ServeHandler),
-    ('/update_schema', UpdateSchemaHandler)
+    ('/update_schema', UpdateSchemaHandler),
     ('/update', UpdateHandler)
 ], debug=True)
