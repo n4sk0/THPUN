@@ -166,12 +166,27 @@ function setMarkers(map, locations) {
   // Origins, anchor positions and coordinates of the marker
   // increase in the X direction to the right and in
   // the Y direction down.
-  var image = {
+  var greenImage = {
     url: 'static/green.png',
     size: new google.maps.Size(35, 50),     //pin is 35px wide, 50px tall
     origin: new google.maps.Point(0,0),     //origin at 0,0
     anchor: new google.maps.Point(0, 50)    //anchor for the base of the pin is the lower left corner
   };
+
+  var yellowImage = {
+    url: 'static/yellow.png',
+    size: new google.maps.Size(35, 50),     //pin is 35px wide, 50px tall
+    origin: new google.maps.Point(0,0),     //origin at 0,0
+    anchor: new google.maps.Point(0, 50)    //anchor for the base of the pin is the lower left corner
+  };
+
+  var redImage = {
+    url: 'static/red.png',
+    size: new google.maps.Size(35, 50),     //pin is 35px wide, 50px tall
+    origin: new google.maps.Point(0,0),     //origin at 0,0
+    anchor: new google.maps.Point(0, 50)    //anchor for the base of the pin is the lower left corner
+  };
+
   var shape = {
       coords: [0, 0, 35, 50],
       type: 'rect'
@@ -183,10 +198,14 @@ function setMarkers(map, locations) {
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
+      var thisImage;
+      if(business[4] == 'newBusiness'){
+        thisImage = greenImage;
+      }
       var marker = new google.maps.Marker({
           map: map,
           position: results[0].geometry.location,
-          icon: image,
+          icon: thisImage,
           shape: shape,
           title: business[0]
       });
