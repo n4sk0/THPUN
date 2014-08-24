@@ -69,7 +69,8 @@
                         
           <div id="tableOfResults"; style="float:left">
             <input type="text" id="place" placeholder="enter location"; style="margin-left:15px"> </input> <br> <br>
-            <div id="Statuses" style="margin-left:15px">Status</div> <br>
+            <div id="Statuses" style="margin-left:15px">Status<img src="/static/gray.png" style="margin-left:5px"></img><img src="/static/green.png" style="margin-left:5px"></img><img src="/static/yellow.png" style="margin-left:5px"></img><img src="/static/red.png" style="margin-left:5px"></img></div> 
+            <br>
             <div id="RecentSearch"; style="margin-left:15px">Oakland, CA > Not In Compliance <br></div> <br>
             <table border="1"; style="border-collapse: separate; border: solid #D8D8D8  1px; border-radius:6px; -moz-border-radius:6px; width:250px; margin-left:15px">
             <tr>
@@ -155,7 +156,6 @@ $(document).ready(function() {
 /************ MAP ****************/
 var map;
 function initialize() {
-  alert ("HEY");
   var lat = 37.8111401;
   var lng = -122.2663613;
 
