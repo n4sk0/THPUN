@@ -42,6 +42,9 @@
              <li><a href="/"; style="color:black; border-bottom-width: 1px;  border-bottom-style: solid; border-bottom-width: 2px">map</a></li>
              <li><a href="about"; style="color:black">about</a></li>
              <li><a href="contact"; style="color:black">contact</a></li>
+             {% if authenticated %}
+                <li><a href="file_upload"; style="color:black">upload</a></li>
+             {% endif %}
             </ul>
         </div>
       </div>
@@ -248,8 +251,20 @@ function setMarkers(map, locations) {
   		google.maps.event.addDomListener(updateBtn, "click", function(event) {
   		  var status = $("#newStatus").val();
   		  $("#newStatus").val(null);
-  		  //TODO: MAKE AJAX CALL HERE
-  			alert(status); 
+  		  
+  		  
+  		  var contentString = $('<div class="marker-info-win">'+
+        '<div class="marker-inner-win"><span class="info-content">'+
+        'Business Name: ' + business[0] + '<br />' +
+        'Address: ' + business[1] + '<br />' +
+        '<span class="status">Status: ' + status + "</span>"+
+        '</span>'+
+        '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
+        var infowindow = new google.maps.InfoWindow();
+        infowindow.setContent(contentString[0]);
+        markers[currentClick]['infowindow'] = infowindow;
+        
+  			//alert(status); 
   		});
 
       google.maps.event.addListener(markers[j], 'click', function(innerKey) {

@@ -59,8 +59,11 @@
         <div class="container">
             <ul class="nav" style="clear:both; float:right">
              <li><a href="/"; style="color:black">map</a></li>
-             <li><a href="about"; style="color:black; border-bottom-width: 2px;  border-bottom-style: solid">about</a></li> 
+             <li><a href="about"; style="color:black; border-bottom-width: 2px;  border-bottom-style: solid">about</a></li>
              <li><a href="contact"; style="color:black">contact</a></li>
+             {% if authenticated %}
+                <li><a href="file_upload"; style="color:black">upload</a></li>
+             {% endif %}
             </ul>
         </div>
       </div>
