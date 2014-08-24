@@ -152,9 +152,17 @@ function initialize() {
 
  //fields: name, address, city, zip, status
 var businesses = [
-    ['Twillo', ' 645 Harrison Street', 'San Francisco', 94107, 'newBusiness']
-
+    ['Twillo', '645 Harrison Street', 'San Francisco', 94107, 'not compliant'],
+    ['Subway', '600 Harrison Street', 'San Francisco', 94107, 'compliant'],
+    ['Da Club', '500 Harrison Street', 'San Francisco', 94107, 'pending further action'],
+    ['BART', '400 Harrison Street', 'San Francisco', 94107, 'new business'],
+    ['Dairy Queen', '215 2nd Street', 'San Francisco', 94107, 'not compliant'],
+    ['Da Otha Club', '225 2nd Street', 'San Francisco', 94107, 'compliant'],
+    ['Yogurtland', '115 2nd St', 'San Francisco', 94107, 'pending further action'],
+    ['The Cheesecake Factory', '103 Harrison Street', 'San Francisco', 94107, 'new business']
 ];
+
+var markers = [];
 
 //adds markers to the map for each business
 function setMarkers(map, locations) {
@@ -165,50 +173,72 @@ function setMarkers(map, locations) {
   // Origins, anchor positions and coordinates of the marker
   // increase in the X direction to the right and in
   // the Y direction down.
-  var greenImage = {
-    url: 'static/green.png',
-    size: new google.maps.Size(35, 50),     //pin is 35px wide, 50px tall
-    origin: new google.maps.Point(0,0),     //origin at 0,0
-    anchor: new google.maps.Point(0, 50)    //anchor for the base of the pin is the lower left corner
-  };
-
-  var yellowImage = {
-    url: 'static/yellow.png',
-    size: new google.maps.Size(35, 50),     //pin is 35px wide, 50px tall
-    origin: new google.maps.Point(0,0),     //origin at 0,0
-    anchor: new google.maps.Point(0, 50)    //anchor for the base of the pin is the lower left corner
-  };
-
-  var redImage = {
-    url: 'static/red.png',
-    size: new google.maps.Size(35, 50),     //pin is 35px wide, 50px tall
-    origin: new google.maps.Point(0,0),     //origin at 0,0
-    anchor: new google.maps.Point(0, 50)    //anchor for the base of the pin is the lower left corner
-  };
 
   var shape = {
-      coords: [0, 0, 35, 50],
+      coords: [0, 0, 17, 26],
       type: 'rect'
   };
+  console.log(locations.length);
   for (var i = 0; i < locations.length; i++) {
-    var business = locations[i];
+    var j = 0;
+    console.log('length' + locations.length);
+    console.log('a' + i);
     
-    var address = business[1];
+    
+    var address = locations[i][1];
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      var thisImage;
-      if(business[4] == 'newBusiness'){
-        thisImage = greenImage;
+      console.log('j is:' + j)
+      var business = locations[j];
+      var businessStatus = business[4];
+      var image = {
+        size: new google.maps.Size(17, 26),     //pin is 17px wide, 26px tall
+        origin: new google.maps.Point(0, 0),     //origin at 0,0
+        anchor: new google.maps.Point(1, 26)    //anchor for the base of the pin is the lower left corner
+      };
+      if(businessStatus == 'compliant'){
+        image['url'] = 'static/green.png';
+      }
+      else if(businessStatus == 'pending further action'){
+        image['url'] = 'static/yellow.png';
+      }
+      else if(businessStatus == 'not compliant'){
+        image['url'] = 'static/red.png';
+      }
+      else if(businessStatus == 'new business'){
+        image['url'] = 'static/gray.png';
       }
       var marker = new google.maps.Marker({
           map: map,
           position: results[0].geometry.location,
-          icon: thisImage,
+          icon: image,
           shape: shape,
           title: business[0]
       });
-    } else {
+
+      var contentString = $('<div class="marker-info-win">'+
+      '<div class="marker-inner-win"><span class="info-content">'+
+      'Business Name: ' + business[0] + '<br />' +
+      'Address: ' + business[1] + '<br />' +
+      'Status: ' + business[4] +
+      '</span>'+
+      '</div></div>');
+            
+      var infowindow = new google.maps.InfoWindow();
+      infowindow.setContent(contentString[0]);
+
+      marker['infowindow'] = infowindow;
+      markers[j] = marker;
+
+      google.maps.event.addListener(markers[j], 'click', function(innerKey) {
+      return function() {
+          markers[innerKey]['infowindow'].open(map, markers[innerKey]);
+      }
+    }(j));
+      console.log("j is " + j);
+      j++;
+    } else {                                          //invalid address
       alert('Unable to find address: ' + address);
     }
   });
