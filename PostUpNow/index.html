@@ -76,7 +76,7 @@
             <button type="button" class="btn btn-default" style="float:right" id="search">Search</button> <br> <br>
             <div id="Statuses" style="margin-left:15px">Status<img src="/static/gray.png" style="margin-left:5px"></img><img src="/static/green.png" style="margin-left:5px"></img><img src="/static/yellow.png" style="margin-left:5px"></img><img src="/static/red.png" style="margin-left:5px"></img></div> 
             <br>
-            <div id="RecentSearch"; style="margin-left:15px">Oakland, CA > Not In Compliance <br></div> <br>
+            <div id="RecentSearch"; style="margin-left:15px"> <br></div> <br>
             <table border="1"; style="border-collapse: separate; border: solid #D8D8D8  1px; border-radius:6px; -moz-border-radius:6px; width:250px; margin-left:15px">
             <tr>
               <td>George Kayes</td>
@@ -255,13 +255,28 @@ function setMarkers(map, locations) {
         '<div class="marker-inner-win"><span class="info-content">'+
         'Business Name: ' + business['name'] + '<br />' +
         'Address: ' + business['address'] + '<br />' +
+<<<<<<< HEAD
         '<span class="status">Status: ' + business['status'] + "</span>"+
+=======
+        '<span class="status">Status: ' + status + "</span>"+
+>>>>>>> master
         '</span>'+
         '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent(contentString[0]);
         markers[currentClick]['infowindow'] = infowindow;
         
+        //the ajax call is here
+        $.ajax({
+            type: "GET",
+            url: "/update",
+            data: {"status": status,
+                   "name": business['name'],
+                   "address": business['address']},
+            success: function(data) {
+              alert ("update successful");
+            }
+          })
   			//alert(status); 
   		});
 
@@ -299,6 +314,7 @@ $( "#search" ).click(function() {
       console.log('Unable to find address ' + address);
     }
   });
+  $("#RecentSearch").text(address);
 });
 
 $('#place').keypress(function (e) {

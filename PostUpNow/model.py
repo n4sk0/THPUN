@@ -7,6 +7,7 @@ class BusinessStatus(ndb.Model):
 
 class Business(ndb.Model):
     """Models an individual Business entry"""
+<<<<<<< HEAD
     name = ndb.StringProperty(indexed=False)
     latitude = ndb.StringProperty(indexed=False)
     longitude = ndb.StringProperty(indexed=False)
