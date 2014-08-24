@@ -13,7 +13,7 @@ import webapp2
 
 import logging
 import json
-logging.getLogger().setLevel(logging.DEBUG)
+
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -42,7 +42,7 @@ class MainPage(webapp2.RequestHandler):
                          'zipCode':marker.zipCode,
                          'statuses':marker.statuses,
                          'comment':marker.comment,
-                #         'key':marker.key
+                         'key':marker.key(),
             })
 
         template_values = {
@@ -51,6 +51,8 @@ class MainPage(webapp2.RequestHandler):
             'authenticated': authenticated,
             'markers': json.dumps(markers),
         }
+        logging.getLogger().setLevel(logging.DEBUG)
+        logging.info(markers)
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render(template_values))
 
@@ -102,21 +104,21 @@ class FileUpload(webapp2.RequestHandler):
 
 class Contact(webapp2.RequestHandler):
 
-            def get(self):
-                if users.get_current_user():
-                    url = users.create_logout_url(self.request.uri)
-                    url_linktext = 'Logout'
-                else:
-                    url = users.create_login_url(self.request.uri)
-                    url_linktext = 'Login'
+    def get(self):
+        if users.get_current_user():
+            url = users.create_logout_url(self.request.uri)
+            url_linktext = 'Logout'
+        else:
+            url = users.create_login_url(self.request.uri)
+            url_linktext = 'Login'
 
-                template_values = {
-                    'url': url,
-                    'url_linktext': url_linktext,
-                }
+        template_values = {
+            'url': url,
+            'url_linktext': url_linktext,
+        }
 
-                template = JINJA_ENVIRONMENT.get_template('contact.html')
-                self.response.write(template.render(template_values))
+        template = JINJA_ENVIRONMENT.get_template('contact.html')
+        self.response.write(template.render(template_values))
 
 
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
@@ -141,11 +143,21 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 
 #We don't really need the server handler, it's here just in case we need it later on.
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
-  def get(self, resource):
-    resource = str(urllib.unquote(resource))
-    blob_info = blobstore.BlobInfo.get(resource)
-    self.send_blob(blob_info)
+    def get(self, resource):
+        resource = str(urllib.unquote(resource))
+        blob_info = blobstore.BlobInfo.get(resource)
+        self.send_blob(blob_info)
 
+class UpdateHandler(webapp2.RequestHandler):
+    def get(self):
+        name = self.request.get('name')
+        address = self.request.get('address')
+        status = self.request.get('status')
+        dbmarkers = Business.query(Business.address == address, Business.name == name).fetch()
+        for marker in dbmarkers:
+            marker.status = status
+            marker.put()
+        self.response.write('success')
 
 application = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -153,5 +165,6 @@ application = webapp2.WSGIApplication([
     ('/contact', Contact),
     ('/file_upload', FileUpload),
     ('/upload', UploadHandler),
-    ('/serve/([^/]+)?', ServeHandler)
+    ('/serve/([^/]+)?', ServeHandler),
+    ('/update', UpdateHandler)
 ], debug=True)
