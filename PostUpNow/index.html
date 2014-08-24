@@ -117,10 +117,12 @@ function setPosition(position)
             state = $(this).text();
           });
 
-         location.value = city+", "+state;
+         //location.value = city+", "+state;
+         initialize();
+         map.setCenter(new google.maps.LatLng(latitude, longitude));
       }
     })
-    map.setCenter(new google.maps.LatLng(latitude, longitude));
+    
     //google.maps.event.trigger(map, 'resize');
 }
 
@@ -133,8 +135,8 @@ $(document).ready(function() {
 var map;
 function initialize() {
 
-  var lat = 37.777994;
-  var lng = -122.272465;
+  var lat = 99;
+  var lng = 99;
 
   if (!latitude || !longitude) {
     latitude = lat;
@@ -196,6 +198,6 @@ function setMarkers(map, locations) {
   }
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
