@@ -244,18 +244,52 @@ function setMarkers(map, locations) {
   		google.maps.event.addDomListener(updateBtn, "click", function(event) {
   		  var status = $("#newStatus").val();
   		  $("#newStatus").val(null);
-  		  
-  		  
-  		  var contentString = $('<div class="marker-info-win">'+
-        '<div class="marker-inner-win"><span class="info-content">'+
-        'Business Name: ' + business['name'] + '<br />' +
-        'Address: ' + business['address'] + '<br />' +
-        '<span class="status">Status: ' + status + "</span>"+
-        '</span>'+
-        '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
-        var infowindow = new google.maps.InfoWindow();
-        infowindow.setContent(contentString[0]);
-        markers[currentClick]['infowindow'] = infowindow;
+        
+        
+        
+        //update the pin color
+        if (status == "0")
+        {
+          image['url'] = 'static/gray.png';
+        }
+        if (status == "1")
+        {
+          image['url'] = 'static/green.png';
+        }
+        if (status == "2")
+        {
+          image['url'] = 'static/yellow.png';
+        }
+        if (status == "3")
+        {
+          image['url'] = 'static/red.png';
+        }
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+            icon: image,
+            shape: shape,
+            title: business['name']
+        });
+        
+         var contentString = $('<div class="marker-info-win">'+
+          '<div class="marker-inner-win"><span class="info-content">'+
+          'Business Name: ' + business['name'] + '<br />' +
+          'Address: ' + business['address'] + '<br />' +
+          '<span class="status">Status: ' + status + "</span>"+
+          '</span>'+
+          '</div>'+'<input type="text" id="newStatus" placeholder="new status"> </input>'+'<br><button name="update-marker" class="update-marker" title="update marker">Update Status</button></div>');  
+          var infowindow = new google.maps.InfoWindow();
+          infowindow.setContent(contentString[0]);
+          markers[currentClick] = marker;
+          markers[currentClick]['infowindow'] = infowindow;
+          
+          google.maps.event.addListener(markers[currentClick], 'click', function () {
+              //markers[currentClick]['infowindow'].close(map, markers[currentClick]);
+              //alert("YO YOU CLICK");
+              //alert(innerKey);
+              markers[currentClick]['infowindow'].open(map, markers[currentClick])});
+              //currentClick = innerKey;});
         
         //the ajax call is here
         $.ajax({
@@ -268,6 +302,8 @@ function setMarkers(map, locations) {
               alert ("update successful");
             }
           })
+          
+          
   			//alert(status); 
   		});
 
