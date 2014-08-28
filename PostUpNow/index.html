@@ -257,35 +257,43 @@ function setMarkers(map, locations) {
       //###### update the status of an institution #########/
   		var updateBtn 	= contentString.find('button.update-marker')[0];
   		google.maps.event.addDomListener(updateBtn, "click", function(event) {
+  		  //markers[currentClick].setMap(null);
   		  var status = $("#newStatus").val();
   		  $("#newStatus").val(null);
+  		  markers[currentClick].setMap(null);
+  		  var image2 = {
+                size: new google.maps.Size(17, 26),     //pin is 17px wide, 26px tall
+                origin: new google.maps.Point(0, 0),     //origin at 0,0
+                anchor: new google.maps.Point(1, 26)    //anchor for the base of the pin is the lower left corner
+              };
         //update the pin color
       var code;
       if(status == 1 || status == "compliant"){
-        image['url'] = 'static/green.png';
+        image2['url'] = 'static/green.png';
         code = "compliant";
       }
       else if(status == 2 || status == "pending"){
-        image['url'] = 'static/yellow.png';
+        image2['url'] = 'static/yellow.png';
         code = "pending";
       }
       else if(status = 3 || status == "not compliant"){
-        image['url'] = 'static/red.png';
+        image2['url'] = 'static/red.png';
         code = "not compliant"
       }
       else if(status = 0 || status == "no data"){
-        image['url'] = 'static/gray.png';
+        image2['url'] = 'static/gray.png';
         code = "no data"
       }
 
         var marker2 = new google.maps.Marker({
             map: map,
             position: new google.maps.LatLng(locations[currentClick]['latitude'], locations[currentClick]['longitude']),
-            icon: image,
+            icon: image2,
             shape: shape,
             title: business['name'],
             statusCode: code
         });
+        //var current = locations[currentClick];
         
          var contentString = $('<div class="marker-info-win">'+
           '<div class="marker-inner-win"><span class="info-content">'+
@@ -299,12 +307,25 @@ function setMarkers(map, locations) {
           markers[currentClick] = marker2;
           markers[currentClick]['infowindow'] = infowindow;
           
-          google.maps.event.addListener(markers[currentClick], 'click', function () {
+          /*google.maps.event.addListener(markers[currentClick], 'click', function (){
               //markers[currentClick]['infowindow'].close(map, markers[currentClick]);
               //alert("YO YOU CLICK");
               //alert(innerKey);
-              markers[currentClick]['infowindow'].open(map, markers[currentClick])});
-              //currentClick = innerKey;});
+              currentClick = currentClick;
+              markers[currentClick]['infowindow'].open(map, markers[currentClick]);
+              });
+              //currentClick = innerKey;});*/
+              
+              google.maps.event.addListener(markers[currentClick], 'click', function(innerKey) {
+              return function() {
+                  markers[currentClick]['infowindow'].close(map, markers[currentClick]);
+                  //alert("YO YOU CLICK");
+                  //alert(innerKey);
+                  markers[innerKey]['infowindow'].open(map, markers[innerKey]);
+                  currentClick = innerKey;
+              }
+            }(currentClick));
+              
         
         //the ajax call is here
         /*$.ajax({
